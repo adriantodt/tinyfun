@@ -5,7 +5,6 @@ import net.adriantodt.tinyfun.api.FunService;
 import net.adriantodt.tinyfun.utils.Plumbing;
 import net.adriantodt.tinyfun.utils.Util;
 import net.adriantodt.tinyfun.utils.browser.DataBrowser;
-import spark.utils.Assert;
 
 import java.io.File;
 import java.io.InputStream;
@@ -29,10 +28,10 @@ public class FunManager {
     }
 
     public void execute(String[] functions, InputStream inputStream, OutputStream outputStream) throws Exception {
-        Assert.isTrue(functions.length != 0, "Array of functions is empty");
+        require(functions.length != 0, "Array of functions is empty");
         var funMap = loadFunctions();
         var funs = Arrays.stream(functions).map(funMap::get).collect(Collectors.toList());
-        Assert.isTrue(funs.stream().filter(Objects::isNull).findAny().isEmpty(), "Function not found");
+        require(funs.stream().noneMatch(Objects::isNull), "Function not found");
 
         var length = funs.size();
         if (length == 1) {
@@ -85,5 +84,11 @@ public class FunManager {
         var service = services.get(type);
 
         return service.load(runDir, options);
+    }
+
+    public static void require(boolean expression, String message) {
+        if (!expression) {
+            throw new IllegalArgumentException(message);
+        }
     }
 }

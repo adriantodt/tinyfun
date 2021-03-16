@@ -29,9 +29,9 @@ public class Util {
     private static final ThreadLocal<Yaml> threadLocalYaml = ThreadLocal.withInitial(Yaml::new);
 
     public static List<String> possibleFileExtensions(String name) {
-        var index = name.indexOf('.');
-
         var result = new ArrayList<String>();
+
+        var index = name.indexOf('.');
 
         while (index != -1) {
             if (index >= name.length()) {
@@ -43,7 +43,6 @@ public class Util {
         }
 
         return result;
-
     }
 
     @SuppressWarnings("unchecked")

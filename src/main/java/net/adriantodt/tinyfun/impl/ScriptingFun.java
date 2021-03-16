@@ -37,10 +37,6 @@ public class ScriptingFun extends AbstractFun<ScriptingFunService> {
             bindings.put("event", event);
             var result = engine.eval(script, bindings);
 
-            if (result instanceof Invocable) {
-                System.out.println("INVOCABLE:" + result);
-            }
-
             JsonWriter.on(out).value(result).done();
         }
         return true;
